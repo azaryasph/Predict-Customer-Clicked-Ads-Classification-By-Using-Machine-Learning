@@ -30,7 +30,7 @@ Photo by [Anthony Rosset](https://unsplash.com/@anthonyrosset?utm_content=credit
 8. [Installation and Usage](#Installation-and-Usage)
 
 ## Background Project
-### What is the problem to solve
+### What is the problem to solve?
 The problem is the company wants to **target the right customers who are more likely to click on the ads** so the **company don't waste their money** on giving advertisements to the wrong customers.
 
 ### Why is this problem important?
@@ -49,7 +49,7 @@ The scope of this project is to **predict the customers who are more likely to c
 ### How is the output of the developed model?
 The output of the developed model is the classification prediction of the customers who are more likely to click on the ads and not.
 
-## Data & Assumption
+## Data and Assumptions
 ### Data Size
 The data size is 1000 rows and 11 columns.
 
@@ -78,6 +78,46 @@ Based on my domain knowledge, I assume that the feature that will be useful for 
 - `province`
 - `ad_category`
 
-The rest of the features are not useful for this prediction task, especially timestamp feature this feature is data leakage and this feature will only be used for Data Analysis only.
+The rest of the features are not useful for this prediction task, especially timestamp feature this feature is indicated as data leakage because this feature generated right aftert the target feature `clicked_on_ad` generated.
+
+### Data Analysis
+
+#### How many customers clicked on the ads and not?
+![alt text](image-2.png)
+There's 500 customers who clicked on the ad and 500 others didn't, in other words the target feature `clicked_on_ad` is balanced, so there's no need to do any resampling technique later.
+
+#### Where the customer come from and what ad category is prefered?
+![Univariate2](image-1.png)
+- The customer come from 30 different cities and 16 different provinces. The top 3 Cities where the customer come from are Surabaya, Bandung, and Jakarta Timur, and The top 3 Provinces where the customer come from are DKI Jakarta, Jawa Barat, and Jawa Timur 
+
+- Seems like there's no significant different of the ad category that the customer clicked on.  
+
+#### Customer Type & Behaviour Analysis on Advertisement
+##### Customer Type distribution analysis different by target
+![alt text](image-3.png)
+- Female customers are slightly more likely to click on ad compared to Male customers.
+- Automotive, House, Fashion, and Finance ad category are more likely to be clicked by the customer compared to the other ad category.
+- Customer from Province DKI Jakarta are less likely to click on an compared to Jawa Barat (compared only the top province) 
+
+##### Customer behavior distribution analysis different by target
+![alt text](image-4.png)
+From the distribution above, we can see that:
+- The density distribution of the customer who clicked on the ads and not, is seperated by the daily time spent on the site. This mean the customer who clicked on the ads spent less time on the site compared to the customer who didn't click on the ads.
+
+- For the density distribution of the customer who clicked on the ads and not, is seperated by the daily internet usage. This mean the customer who clicked on the ads spent less time on the internet compared to the customer who didn't click on the ads. these 2 insights are connected because the less the customer use internet the less time they spend on the site.
+
+- Age and income distribution for the customer who clicked on the ads and not are not very well separated.
+
+#### Customer behavior correlation analysis different by target 
+![alt text](image-5.png)
+- `daily_internet_usage` and `daily_time_spent_on_site` are positively correlated with each other, and the customer who clicked on the ads spent less time on the site and less time on the internet compared to the customer who didn't click on the ads.
+
+- `daily_time_spent_on_site` and `age` are negatively correlated with each other, and the customer who clicked on the ads are older compared to the customer who didn't click on the ads. 
+
+- `daily_time_spent_on_site` and `income` are weak positively correlated with each other, and the customer who clicked on the ads have slightly lower income compared to the customer who didn't click on the ads.
+
+### Data Preprocessing
+
+
 
 
