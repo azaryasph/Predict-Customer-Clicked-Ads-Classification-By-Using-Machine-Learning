@@ -83,24 +83,24 @@ The rest of the features are not useful for this prediction task, especially tim
 ### Data Analysis
 
 #### How many customers clicked on the ads and not?
-![alt text](image-2.png)
+![alt text](./src/images/target_dist.png)
 There's 500 customers who clicked on the ad and 500 others didn't, in other words the target feature `clicked_on_ad` is balanced, so there's no need to do any resampling technique later.
 
 #### Where the customer come from and what ad category is prefered?
-![Univariate2](image-1.png)
+![Univariate2](./src/images/univariate1.png)
 - The customer come from 30 different cities and 16 different provinces. The top 3 Cities where the customer come from are Surabaya, Bandung, and Jakarta Timur, and The top 3 Provinces where the customer come from are DKI Jakarta, Jawa Barat, and Jawa Timur 
 
 - Seems like there's no significant different of the ad category that the customer clicked on.  
 
 #### Customer Type & Behaviour Analysis on Advertisement
 ##### Customer Type distribution analysis different by target
-![alt text](image-3.png)
+![alt text](./src/images/customer_type.png)
 - Female customers are slightly more likely to click on ad compared to Male customers.
 - Automotive, House, Fashion, and Finance ad category are more likely to be clicked by the customer compared to the other ad category.
 - Customer from Province DKI Jakarta are less likely to click on an compared to Jawa Barat (compared only the top province) 
 
 ##### Customer behavior distribution analysis different by target
-![alt text](image-4.png)
+![alt text](./src/images/customer_behavior.png)
 From the distribution above, we can see that:
 - The density distribution of the customer who clicked on the ads and not, is seperated by the daily time spent on the site. This mean the customer who clicked on the ads spent less time on the site compared to the customer who didn't click on the ads.
 
@@ -109,7 +109,7 @@ From the distribution above, we can see that:
 - Age and income distribution for the customer who clicked on the ads and not are not very well separated.
 
 #### Customer behavior correlation analysis different by target 
-![alt text](image-5.png)
+![alt text](./src/images/behavior_target.png)
 - `daily_internet_usage` and `daily_time_spent_on_site` are positively correlated with each other, and the customer who clicked on the ads spent less time on the site and less time on the internet compared to the customer who didn't click on the ads.
 
 - `daily_time_spent_on_site` and `age` are negatively correlated with each other, and the customer who clicked on the ads are older compared to the customer who didn't click on the ads. 
@@ -117,7 +117,72 @@ From the distribution above, we can see that:
 - `daily_time_spent_on_site` and `income` are weak positively correlated with each other, and the customer who clicked on the ads have slightly lower income compared to the customer who didn't click on the ads.
 
 ### Data Preprocessing
+#### Handling Missing Values
 
+````python
+Missing Data Percentage:
 
+daily_time_spent_on_site    1.30%
+income                      1.30%
+daily_internet_usage        1.10%
+gender                      0.30%
+dtype: object
+````
 
+Even though the missing percentage is not too high, I decided to fill the missing values to not lose any infomation, I fill the missing values on numerical data with median (since the numerical data distribution are skewed) and for data categorical filled with mode.
+
+#### Feature Engineering 
+- I create a new feature `age_group` to group the age into 4 groups: `Young`, `Adult`, `Middle Age`, and `Old`.
+
+- Bin Province into more general value : `Jawa`, `Sumatera`, `Kalimantan`, `Riau`, etc.
+
+- Extract the month, day, and hour from the timestamp feature.
+
+#### Feature Selection
+Feature selection based on Chi-Square test and ANOVA test, the selected features are:
+- `daily_time_spent_on_site`
+- `age_group`
+- `income`
+- `daily_internet_usage`
+- `province`
+
+#### Feature Encoding
+- Encode Target Feature `clicked_on_ad` with Label Encoding.
+- For the `age_group` feature, I use ordinal encoding because the age group has an order.
+- For the `province` feature, I use One Hot Encoding because the province has no order.
+
+#### Data Splitting
+I split the data into 70% training data and 30% testing data.
+(scaling not performed yet because I want to test the model performance without scaling the data)
+
+### Modelling and Evaluation
+#### Model Selection
+The mode that I used for this classification task are:
+- Logistic Regression<br> This is a simple model that is easy to interpret and understand, this model also performs well when the data can be linearly seperated like our data. It's also good when we have a binary classification task and the input variables are independent of each other.
+![Logistic Regression Image](./src/images/lreg.png)
+
+Image Source: [Natassha Selvaraj](https://www.natasshaselvaraj.com/logistic-regression-explained-in-7-minutes/)
+
+- Decision Tree<br> Decision Trees are great for data thta has a mix of categorical and numerical features, making them versatile.
+![Decision Tree Image](./src/images/dtree.png)
+
+Image Source: [EdrawMax](https://www.edrawmax.com/decision-tree/)
+
+- Random Forest<br> Random Forests are less likely to overfit than individual decision trees and often provide better accuracy. This is an ensemble method that combines multiple decision trees to improve the model's performance.
+![Random Forest Image](./src/images/rforest.png)
+
+Image Source: Dr. Roi Yehoshua on [Medium](https://medium.com/@roiyeho/random-forests-98892261dc49)
+
+- XGBoost<br> XGBoost is a powerful model that can handle a variety of data types and structures. It's particularly good at dealing with imbalanced datasets due to its built-in capability to handle class imbalance. Even though our data is not imbalance and we don't really need very complex model, but I want to test and see how the model perform.
+![XGBoost Image Illustration](./src/images/xgbillust.png)
+
+Image Source: [Research Gate](https://www.researchgate.net/figure/Simplified-structure-of-XGBoost_fig2_348025909)
+
+#### Metrics Evaluation
+Metrics evaluation used for this project are:
+- Precision Score<br> Precision measures the proportion of true positive predictions (customers who clicked on the ad and were correctly identified) among all positive predictions. A high precision means that when our model predicts a customer will click on the ad, it is likely to be correct.
+
+- ROC-AUC Score<br> The Receiver Operating Characteristic (ROC) curve is a plot that shows the prformance of a binary classification model as the discrimination threshold is varied. A higher AUC-ROC indicates a better performing model.
+
+#### Model Evaluation
 
