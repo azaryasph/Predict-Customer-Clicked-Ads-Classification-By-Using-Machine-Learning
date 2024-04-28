@@ -1,8 +1,6 @@
 # %% [markdown]
 # # Predict Customer Clicked Ads Classification By Using Machine Learning
 # 
-# Name : Azarya Yehezkiel Pinondang Sipahutar
-# 
 # **Project Overview**:
 # A company in Indonesia wants to know the effectiveness of their advertisements. It is essential for companies operating in the digital marketing consultant sector to find out how successful the advertisements they are marketing are so that they can attract customers to see the advertisements. In this mini project, I am responsible for looking for insights regarding user behaviour from this data by creating visualizations, creating machine learning relevant to the company's needs, and making recommendations from the findings obtained.
 # 
@@ -190,6 +188,16 @@ dfe.duplicated().sum()
 # **Categorical Data**
 
 # %%
+plt.figure(figsize=(10,6), facecolor='#FFEAA7')
+bar = sns.countplot(x='clicked_on_ad', data=dfe, palette='hls', edgecolor='black')
+for p in bar.patches:
+    bar.annotate(format(p.get_height(), '.0f'), (p.get_x() + p.get_width() / 2., p.get_height()), ha = 'center', va = 'center', xytext = (0, 5), textcoords = 'offset points')
+bar.set_title('Count of Clicked on Ad', fontsize=15)
+bar.set_xlabel('Clicked on Ad', fontsize=12)
+bar.set_ylabel('Count', fontsize=12)
+plt.show()
+
+# %%
 lowvar = dfe[['gender', 'clicked_on_ad']]
 highvar = dfe[['city', 'province', 'ad_category']]
 
@@ -318,7 +326,6 @@ for i, subplot in zip(num.columns, ax.flatten()):
 
 # %% [markdown]
 # from the bivariate analysis with kdeplot above we can infer that:<br>
-# *The bolded points are the most thing that we need to pay attention to.*<br>
 # 
 # - The highest density of customers who clicked on ads is daily time spent on site at around 40 minutes, while the highest density of visitors who did not click on ads is spent time on site around 80 minutes. This suggests that customers who click on ads are more likely to spend 40 minutes or more on the site, while customers who do not click on ads are more likely to spend 80 minutes or less on the site. (customer that spend less time means they really open the side for the purpose of clicking the ads or they just open the site for other purpose. for the people spent more time on the site they might be just browsing the site and not really interested in the ads).<br><br>
 # 
@@ -430,7 +437,6 @@ dfp['gender'].fillna(mod_gen, inplace=True)
 print('Checking if there are any missing values left:')
 print(dfp.isna().sum())
 print('\n No missing values left')
-print(dfp.isna().sum())
 
 # %% [markdown]
 # ### Feature Engineering
@@ -726,9 +732,6 @@ display(dfm.head())
 # in this train test split, i will use 70% of the data for training and 30% of the data for testing, because the data is not too big.
 
 # %%
-dfm.head(2)
-
-# %%
 # Define the feature set X by dropping the target column 'clicked_on_ad' from the dataframe
 X = dfm.drop('clicked_on_ad', axis=1)
 
@@ -880,48 +883,86 @@ xgb = XGBClassifier(random_state=1103)
 models = [lr, dt, rf, xgb]
 
 # Evaluate each model
-results = [evaluate_model(model, X_train, y_train, X_test, y_test, X_val, 0.5) for model in models]
+results1 = [evaluate_model(model, X_train, y_train, X_test, y_test, X_val, 0.5) for model in models]
 
-# Convert the results to a DataFrame
-df_model = pd.DataFrame(results)
+data_models1 = pd.DataFrame(results1)
 
-df_melted = df_model.melt(id_vars='model', value_vars=['train_accuracy', 'test_accuracy'])
+# Define function to plot important metrics
+def melt_n_plot(model_result, train_metrics, test_metrics):
+    """
+    This function takes a DataFrame of model results and two metrics,
+    melts the DataFrame to a long format, and creates a barplot of the important metrics for each model.
+    
+    Parameters:
+    model_result (pd.DataFrame): A DataFrame containing the results of different models.
+    train_metrics (str): The name of the training metric column in the DataFrame.
+    test_metrics (str): The name of the testing metric column in the DataFrame.
 
-plt.figure(figsize=(15, 6), facecolor='#FFEAA7')
-sns.barplot(x='model', y='value', hue='variable', data=df_melted, palette='hls')
-plt.xlabel('Model')
-plt.ylabel('Score')
-plt.title('Train Accuracy vs Test Accuracy for each Model')
-plt.tight_layout()
-plt.show()
+    Returns:
+    None. Displays a bar plot of the metrics for each model.
+    """
+    # Melt the DataFrame to a long format for easier plotting
+    data_melt = model_result.melt(id_vars='model', value_vars=[train_metrics, test_metrics])
 
-display(df_model)
+    # Create a new figure with specified size and background color
+    plt.figure(figsize=(15, 6), facecolor='#FFEAA7')
+
+    # Create a bar plot of the metrics for each model
+    sns.barplot(x='model', y='value', hue='variable', data=data_melt, palette='hls')
+
+    # Set the labels and title of the plot
+    plt.xlabel('Model')
+    plt.ylabel('Score')
+    plt.title(f'Train Test {train_metrics} for each model')
+
+    # Display the plot
+    plt.show()
 
 # %%
-# Plot the ROC curve for each model
-plt.figure(figsize=(10, 6), facecolor='#FFEAA7')
+display(data_models1)
 
-# Plot the ROC curve for each model
-for model in models:
-    model.fit(X_train, y_train)
-    y_test_prob = model.predict_proba(X_test)[:, 1]
-    fpr, tpr, _ = roc_curve(y_test, y_test_prob)
-    plt.plot(fpr, tpr, label=model.__class__.__name__)
+melt_n_plot(data_models1, 'train_precision', 'test_precision')
 
-# Plot the ROC curve for a random classifier
-plt.plot([0, 1], [0, 1], linestyle='--', color='black')
+# %%
+def plot_roc_curve(models_list, X_train, y_train, X_test, y_test):
+    """
+    This function takes a list of models, training and testing data, 
+    fits each model, and plots the ROC curve for each model.
 
-# Add labels and title to the plot
-plt.xlabel('False Positive Rate')
+    Parameters:
+    models_list (list): A list of instantiated models.
+    X_train (pd.DataFrame): The training data.
+    y_train (pd.Series): The training labels.
+    X_test (pd.DataFrame): The testing data.
+    y_test (pd.Series): The testing labels.
 
-plt.ylabel('True Positive Rate')
+    Returns:
+    None. Displays a plot of the ROC curve for each model.
+    """
+    # Create a new figure with specified size and background color
+    plt.figure(figsize=(10, 6), facecolor='#FFEAA7')
 
-plt.title('ROC Curve')
+    # Fit each model and plot the ROC curve
+    for model in models_list:
+        model.fit(X_train, y_train)
+        y_test_prob = model.predict_proba(X_test)[:, 1]
+        fpr, tpr, _ = roc_curve(y_test, y_test_prob)
+        plt.plot(fpr, tpr, label=model.__class__.__name__)
 
-plt.legend()
+    # Plot the ROC curve for a random classifier
+    plt.plot([0, 1], [0, 1], linestyle='--', color='black')
 
-plt.show()
+    # Add labels and title to the plot
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('ROC Curve')
+    plt.legend()
 
+    # Display the plot
+    plt.show()
+
+# %%
+plot_roc_curve(models, X_train, y_train, X_test, y_test)
 
 # %% [markdown]
 # Based on the provided metrics, here's a summary of the model results:
@@ -963,47 +1004,21 @@ X_val_scaled.columns = X_val.columns
 
 # %%
 # Evaluate each model
-results = [evaluate_model(model, X_train_scaled, y_train, X_test_scaled, y_test, X_val_scaled, 0.5) for model in models]
+results2 = [evaluate_model(model, X_train_scaled, y_train, X_test_scaled, y_test, X_val_scaled, 0.5) for model in models]
 
 # Convert the results to a DataFrame
-df_model2 = pd.DataFrame(results)
+df_models2 = pd.DataFrame(results2)
 
-df_melted2 = df_model2.melt(id_vars='model', value_vars=['train_accuracy', 'test_accuracy'])
-
-plt.figure(figsize=(15, 6), facecolor='#FFEAA7')
-sns.barplot(x='model', y='value', hue='variable', data=df_melted2, palette='hls')
-plt.xlabel('Model')
-plt.ylabel('Score')
-plt.title('Train Accuracy vs Test Accuracy for each Model')
-plt.tight_layout()
-plt.show()
-
-display(df_model2)
+# %% [markdown]
+# 
 
 # %%
-# Plot the ROC curve for each model
-plt.figure(figsize=(10, 6), facecolor='#FFEAA7')
+display(df_models2)
 
-# Plot the ROC curve for each model
-for model in models:
-    model.fit(X_train_scaled, y_train)
-    y_test_prob = model.predict_proba(X_test_scaled)[:, 1]
-    fpr, tpr, _ = roc_curve(y_test, y_test_prob)
-    plt.plot(fpr, tpr, label=model.__class__.__name__)
+melt_n_plot(df_models2, 'train_precision', 'test_precision')
 
-# Plot the ROC curve for a random classifier
-plt.plot([0, 1], [0, 1], linestyle='--', color='black')
-
-# Add labels and title to the plot
-plt.xlabel('False Positive Rate')
-
-plt.ylabel('True Positive Rate')
-
-plt.title('ROC Curve')
-
-plt.legend()
-
-plt.show()
+# %%
+plot_roc_curve(models, X_train_scaled, y_train, X_test_scaled, y_test)
 
 # %% [markdown]
 # Based on the provided metrics after scaling the data, here's a summary of the model results:
@@ -1184,11 +1199,5 @@ print(f'\nProfit Increase: {profit_increase_pct:.2f}%')
 # 4. Optimize Marketing for a Specific Age Range:
 # 
 # - Companies can allocate marketing resources more efficiently by focusing on specific age ranges that respond positively to advertising. This reduces the waste of resources on less responsive age segments while increasing the opportunity to get better results from marketing investments.
-
-# %% [markdown]
-# ### Conclusion
-
-# %% [markdown]
-# 
 
 
