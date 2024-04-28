@@ -182,7 +182,7 @@ Image Source: [Research Gate](https://www.researchgate.net/figure/Simplified-str
 Metrics evaluation used for this project are:
 - Precision Score<br> Precision measures the proportion of true positive predictions (customers who clicked on the ad and were correctly identified) among all positive predictions. A high precision means that when our model predicts a customer will click on the ad, it is likely to be correct.
 
-- ROC-AUC Score<br> The Receiver Operating Characteristic (ROC) curve is a plot that shows the prformance of a binary classification model as the discrimination threshold is varied. A higher AUC-ROC indicates a better performing model.
+- ROC-AUC Score<br> ROC-AUC is a performance metric that evaluates the ability of a binary classification model to discriminate between positive and negative classes. A higher AUC-ROC indicates a better performing model. 
 
 #### Model Evaluation
 The model evaluation result is shown in the table below:
@@ -201,7 +201,7 @@ The business impact simulation based on the Logistic Regression confusion matrix
 As result of the calculation before and after the model implementation on the data test:
 | Business Metric         | Before Model | After Model  | Diff            |
 |-------------------------|--------------|--------------|-----------------|
-| Conversion Rate         | 50%          | 96%          | + 0.47          |
+| Conversion Rate         | 50%          | 96%          | + 47%         |
 | Total Cost              | Rp 4,500,000 | Rp 2,235,000 | - Rp 2,265,000  |
 | Total Revenue           | Rp 7,500,000 | Rp 6,750,000 | - Rp 750,000    |
 | Profit                  | Rp 3,000,000 | Rp 4,515,000  | + Rp 1,515,000 |
