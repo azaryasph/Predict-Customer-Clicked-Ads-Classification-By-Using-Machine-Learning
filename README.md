@@ -19,17 +19,17 @@ Photo by [Anthony Rosset](https://unsplash.com/@anthonyrosset?utm_content=credit
 
   
 ## 📚 Table of Contents
-1. [📝 Background Project](#Bacgkrpund-Project📝)
-2. [🔭 Scope of Work](#Scope-of-Work🔭)
-3. [📊 Data and Assumptions](#Data-and-Assumptions📊)
-4. [📈 Data Analysis](#Data-Analysis📈)
-5. [🧹 Data Preprocessing](#Data-Preprocessing🧹)
-5. [🤖 Modelling and Evaluation](#Modelling-and-Evaluation🤖)
-6. [🔚 Conclusion](#Conclusion🔚)
-7. [🙏 Acknowledgements](#Acknowledgements🙏)
-8. [💻 Installation and Usage](#Installation-and-Usage💻)
+1. [📝 Background Project](#background-project)
+2. [🔭 Scope of Work](#scope-of-work)
+3. [📊 Data and Assumptions](#data-and-assumptions)
+4. [📈 Data Analysis](#data-analysis)
+5. [🧹 Data Preprocessing](#data-preprocessing)
+6. [🤖 Modelling and Evaluation](#modelling-and-evaluation)
+7. [🔚 Conclusion](#conclusion)
+8. [💻 Installation and Usage](#installation-and-usage)
+9. [🙏 Acknowledgements](#acknowledgements)
 
-## Background Project📝
+## Background Project
 ### What is the problem to solve?
 The problem is the company wants to **target the right customers who are more likely to click on the ads** so the **company don't waste their money** on giving advertisements to the wrong customers.
 
@@ -42,14 +42,14 @@ The goal of this project is to **increase the conversion rate** of the company a
 ### What Will be Changed if There are the Model Results?
 If there are the model results, the company will **target the right customers who are more likely to click on the ads** so the company **don't waste their money** on giving advertisements to the wrong customers.
 
-## Scope of Work🔭
+## Scope of Work
 ### What is the scope of this project?
 The scope of this project is to **predict the customers who are more likely to click on the ads** so the company can **target the right customers**.
 
 ### How is the output of the developed model?
 The output of the developed model is the classification prediction of the customers who are more likely to click on the ads and not.
 
-## Data and Assumptions📊
+## Data and Assumptions
 ### Data Size
 The data size is 1000 rows and 11 columns.
 
@@ -80,7 +80,7 @@ Based on my domain knowledge, I assume that the feature that will be useful for 
 
 The rest of the features are not useful for this prediction task, especially timestamp feature this feature is indicated as data leakage because this feature generated right aftert the target feature `clicked_on_ad` generated.
 
-### Data Analysis📈
+### Data Analysis
 
 #### How many customers clicked on the ads and not?
 ![alt text](./src/images/target_dist.png)
@@ -116,7 +116,7 @@ From the distribution above, we can see that:
 
 - `daily_time_spent_on_site` and `income` are weak positively correlated with each other, and the customer who clicked on the ads have slightly lower income compared to the customer who didn't click on the ads.
 
-### Data Preprocessing🧹
+### Data Preprocessing
 #### Handling Missing Values
 
 ````python
@@ -155,7 +155,7 @@ Feature selection based on Chi-Square test and ANOVA test, the selected features
 I split the data into 70% training data and 30% testing data.
 (scaling not performed yet because I want to test the model performance without scaling the data)
 
-### Modelling and Evaluation🤖
+### Modelling and Evaluation
 #### Model Selection
 The mode that I used for this classification task are:
 - Logistic Regression<br> This is a simple model that is easy to interpret and understand, this model also performs well when the data can be linearly seperated like our data. It's also good when we have a binary classification task and the input variables are independent of each other.
@@ -234,11 +234,8 @@ Top 4 features that have the most impact on the model prediction are:
 - Companies can allocate marketing resources more efficiently by focusing on specific age ranges that respond positively to advertising. This reduces the waste of resources on less responsive age segments while increasing the opportunity to get better results from marketing investments.
 
 
-### Conclusion🔚
+### Conclusion
 The Logistic Regression model has the best performance compared to the other models. The Logistic Regression model has the highest test AUC score, test precision, test accuracy, test recall, and test F1 score. The model has a significant impact on the company's business metrics, increasing the conversion rate from 50% to 96% and boosting profits by Rp 1,515,000. The top 4 features that have the most impact on the model prediction are daily_internet_usage, daily_time_spent_on_site, income, and age_group. Based on these findings, the company can implement targeted strategies to improve ad click-through rates and maximize profits.
-
-### Acknowledgements🙏
-Thanks to [Rakamin Academy](https://www.rakamin.com/) for providing the dataset and the opportunity to work on this project. I would also like to thank Mr. [Abdullah Ghifari](https://www.linkedin.com/in/abdullah-ghifari/) for his guidance and support throughout the project.
 
 ### Installation and Usage
 1. Clone this repository
@@ -255,5 +252,9 @@ jupyter notebook
 ```
 4. Open the Jupyter Notebook file and run the code
 
+### Acknowledgements
+Thanks to [Rakamin Academy](https://www.rakamin.com/) for providing the dataset and the opportunity to work on this project. I would also like to thank Mr. [Abdullah Ghifari](https://www.linkedin.com/in/abdullah-ghifari/) for his guidance and support throughout the project.
 
+
+![Thank You GIF](https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3BiNGlqejgxaGh0cjc3ODVzNTNtb3RhZmE5MTRyYzBvd3k2ZjQ0aCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l3q2FnW3yZRJVZH2g/giphy.gif)
 
