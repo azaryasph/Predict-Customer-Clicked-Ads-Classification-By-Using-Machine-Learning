@@ -18,23 +18,23 @@
 Photo by [Anthony Rosset](https://unsplash.com/@anthonyrosset?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/group-of-people-walking-near-high-rise-buildings-5r5554u-mHo?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
 
   
-## Table of Contents
-1. [Background Project](#Bacgkrpund-Project)
-2. [Scope of Work](#Scope-of-Work)
-3. [Data and Assumptions](#Data-and-Assumptions)
-4. [Data Analysis](#Data-Analysis)
-5. [Data Preprocessing](#Data-Preprocessing)
-5. [Modelling and Evaluation](#Modelling-and-Evaluation)
-6. [Conclusion](#Conclusion)
-7. [Suggestions](#Suggestions)
-8. [Installation and Usage](#Installation-and-Usage)
+## 📚 Table of Contents
+1. [📝 Background Project](#Bacgkrpund-Project📝)
+2. [🔭 Scope of Work](#Scope-of-Work🔭)
+3. [📊 Data and Assumptions](#Data-and-Assumptions📊)
+4. [📈 Data Analysis](#Data-Analysis📈)
+5. [🧹 Data Preprocessing](#Data-Preprocessing🧹)
+5. [🤖 Modelling and Evaluation](#Modelling-and-Evaluation🤖)
+6. [🔚 Conclusion](#Conclusion🔚)
+7. [🙏 Acknowledgements](#Acknowledgements🙏)
+8. [💻 Installation and Usage](#Installation-and-Usage💻)
 
-## Background Project
+## Background Project📝
 ### What is the problem to solve?
 The problem is the company wants to **target the right customers who are more likely to click on the ads** so the **company don't waste their money** on giving advertisements to the wrong customers.
 
 ### Why is this problem important?
-This problem is important **because the company can save a lot of money by targeting the right customers** who are more likely to click on the ads. This will help the company to increase their profit.
+This problem is important **because the company can save a lot of money by targeting the right customers** who are more likely to click on the ads. This will **help the company to increase their profit**.
 
 ### What is the goal of this project?
 The goal of this project is to **increase the conversion rate** of the company and also **will help the company to increase their profit**.
@@ -42,14 +42,14 @@ The goal of this project is to **increase the conversion rate** of the company a
 ### What Will be Changed if There are the Model Results?
 If there are the model results, the company will **target the right customers who are more likely to click on the ads** so the company **don't waste their money** on giving advertisements to the wrong customers.
 
-## Scope of Work
+## Scope of Work🔭
 ### What is the scope of this project?
 The scope of this project is to **predict the customers who are more likely to click on the ads** so the company can **target the right customers**.
 
 ### How is the output of the developed model?
 The output of the developed model is the classification prediction of the customers who are more likely to click on the ads and not.
 
-## Data and Assumptions
+## Data and Assumptions📊
 ### Data Size
 The data size is 1000 rows and 11 columns.
 
@@ -80,7 +80,7 @@ Based on my domain knowledge, I assume that the feature that will be useful for 
 
 The rest of the features are not useful for this prediction task, especially timestamp feature this feature is indicated as data leakage because this feature generated right aftert the target feature `clicked_on_ad` generated.
 
-### Data Analysis
+### Data Analysis📈
 
 #### How many customers clicked on the ads and not?
 ![alt text](./src/images/target_dist.png)
@@ -116,7 +116,7 @@ From the distribution above, we can see that:
 
 - `daily_time_spent_on_site` and `income` are weak positively correlated with each other, and the customer who clicked on the ads have slightly lower income compared to the customer who didn't click on the ads.
 
-### Data Preprocessing
+### Data Preprocessing🧹
 #### Handling Missing Values
 
 ````python
@@ -155,7 +155,7 @@ Feature selection based on Chi-Square test and ANOVA test, the selected features
 I split the data into 70% training data and 30% testing data.
 (scaling not performed yet because I want to test the model performance without scaling the data)
 
-### Modelling and Evaluation
+### Modelling and Evaluation🤖
 #### Model Selection
 The mode that I used for this classification task are:
 - Logistic Regression<br> This is a simple model that is easy to interpret and understand, this model also performs well when the data can be linearly seperated like our data. It's also good when we have a binary classification task and the input variables are independent of each other.
@@ -185,4 +185,75 @@ Metrics evaluation used for this project are:
 - ROC-AUC Score<br> The Receiver Operating Characteristic (ROC) curve is a plot that shows the prformance of a binary classification model as the discrimination threshold is varied. A higher AUC-ROC indicates a better performing model.
 
 #### Model Evaluation
+The model evaluation result is shown in the table below:
+| Model                  | Train AUC | Test AUC | Cross Val AUC | Train Precision | Test Precision | Train Accuracy | Test Accuracy | Train Recall | Test Recall | Train F1 | Test F1 |
+|------------------------|-----------|----------|---------------|-----------------|----------------|----------------|---------------|--------------|-------------|----------|---------|
+| <mark>LogisticRegression</mark> | <mark>0.99</mark>      | <mark>0.99</mark>     | <mark>0.99</mark>          | <mark>0.98</mark>            | <mark>0.97</mark>           | 0.97</mark>           | 0.95          | 0.97         | 0.94        | 0.97     | 0.95    |
+| DecisionTreeClassifier | 1.00      | 0.94     | 0.94          | 1.00            | 0.95           | 1.00           | 0.94          | 1.00         | 0.93        | 1.00     | 0.94    |
+| RandomForestClassifier | 1.00      | 0.98     | 0.99          | 1.00            | 0.92           | 1.00           | 0.93          | 1.00         | 0.95        | 1.00     | 0.94    |
+| XGBClassifier          | 1.00      | 0.97     | 0.98          | 1.00            | 0.94           | 1.00           | 0.93          | 1.00         | 0.92        | 1.00     | 0.93    |
+
+From the table above, we can see that the Logistic Regression model has the best performance compared to the other models. The Logistic Regression model has the highest test AUC score, test precision, test accuracy, test recall, and test F1 score.
+
+#### Model Business Impact Simulation
+The business impact simulation based on the Logistic Regression confusion matrix:
+![Confusion Matrix](./src/images/cmatrix.png)
+As result of the calculation before and after the model implementation on the data test:
+| Business Metric         | Before Model | After Model  | Diff            |
+|-------------------------|--------------|--------------|-----------------|
+| Conversion Rate         | 50%          | 96%          | + 0.47          |
+| Total Cost              | Rp 4,500,000 | Rp 2,235,000 | - Rp 2,265,000  |
+| Total Revenue           | Rp 7,500,000 | Rp 6,750,000 | - Rp 750,000    |
+| Profit                  | Rp 3,000,000 | Rp 4,515,000  | + Rp 1,515,000 |
+
+#### Model Business Recommendations based on Feature Importances
+![Feature Importances](./src/images/fimp.png)
+Top 4 features that have the most impact on the model prediction are:
+1. `daily_internet_usage`
+2. `daily_time_spent_on_site`
+3. `income`
+4. `age_group` <br><br>
+
+**Actionable Business Recommendations**
+1. Targeting Strategy:
+
+- Focus on Less Frequent Internet Users: Since daily_internet_usage has the highest negative coefficient, prioritize targeting customers who use the internet less frequently. This could involve exploring alternative advertising channels like TV, print, or social media platforms frequented by less internet-savvy demographics.
+
+2. Content Strategy:
+
+- Shorter and Engaging On-Site Content: The negative coefficient of daily_time_spent_on_site suggests that users with limited attention spans are less likely to click on ads. Consider creating shorter, more engaging website content that quickly captures user attention and motivates clicks. This could involve bite-sized infographics, short videos, or interactive elements.
+
+- Personalization based on Usage: Explore personalizing the ad content or website experience based on a user's internet usage patterns. For example, if a user shows signs of limited internet usage, present a more simplified and direct ad message that focuses on the core benefits of our product or service.
+
+3. Re-engagement Strategy:
+
+- Target Disengaged Users: The negative coefficients for internet usage and site time might also indicate a segment of disengaged users. Develop targeted re-engagement campaigns (emails, pop-ups) for these users to bring them back to your platform and convert them into clicking customers.
+
+4. Optimize Marketing for a Specific Age Range:
+
+- Companies can allocate marketing resources more efficiently by focusing on specific age ranges that respond positively to advertising. This reduces the waste of resources on less responsive age segments while increasing the opportunity to get better results from marketing investments.
+
+
+### Conclusion🔚
+The Logistic Regression model has the best performance compared to the other models. The Logistic Regression model has the highest test AUC score, test precision, test accuracy, test recall, and test F1 score. The model has a significant impact on the company's business metrics, increasing the conversion rate from 50% to 96% and boosting profits by Rp 1,515,000. The top 4 features that have the most impact on the model prediction are daily_internet_usage, daily_time_spent_on_site, income, and age_group. Based on these findings, the company can implement targeted strategies to improve ad click-through rates and maximize profits.
+
+### Acknowledgements🙏
+Thanks to [Rakamin Academy](https://www.rakamin.com/) for providing the dataset and the opportunity to work on this project. I would also like to thank Mr. [Abdullah Ghifari](https://www.linkedin.com/in/abdullah-ghifari/) for his guidance and support throughout the project.
+
+### Installation and Usage
+1. Clone this repository
+```
+git clone
+```
+2. Install the required libraries
+```
+pip install -r requirements.txt
+```
+3. Run the Jupyter Notebook
+```
+jupyter notebook
+```
+4. Open the Jupyter Notebook file and run the code
+
+
 
