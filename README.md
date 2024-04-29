@@ -8,7 +8,7 @@
     <img src="https://img.shields.io/github/commit-activity/m/azaryasph/Predict-Customer-Clicked-Ads-Classification-By-Using-Machine-Learning" alt="Commit Activity Badge">
     <img src="https://img.shields.io/github/repo-size/azaryasph/Predict-Customer-Clicked-Ads-Classification-By-Using-Machine-Learning" alt="Repo Size Badge">
     <img src="https://img.shields.io/badge/contributions-welcome-orange.svg" alt="Contributions welcome">
-    <img src="https://www.codefactor.io/repository/github/azaryasph/Predict-Customer-Clicked-Ads-Classification-By-Using-Machine-Learning" alt="CodeFactor"/>
+    <img src="https://www.codefactor.io/repository/github/azaryasph/predict-customer-clicked-ads-classification-by-using-machine-learning/badge" alt="CodeFactor"/>
   </a>
 </p>
 
